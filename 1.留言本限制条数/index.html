@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>留言本</title>
+<style>
+ul,li,input{padding:0;margin:0;outline:none}
+ul{ padding:10px 24px;}
+li{ line-height:24px; font-size:16px;}
+a{ display:inline-table; padding:0 4px; text-decoration:none; font-size:14px;}
+</style>
+<script>
+window.onload=function(){
+   var oMes=document.getElementById("mes");
+   var oBtn=document.getElementById("btn");
+   var oList=document.getElementById("list");
+   var num=0;
+   
+   oMes.onclick=function(){
+	   oMes.value="";
+   }
+  
+   oBtn.onclick=function(){ 
+	   var oLi=document.createElement("li");
+	   var oA=document.createElement("a");
+	   oLi.innerHTML=oMes.value;
+	   num++;
+	   
+	   oA.href="javascript:;";
+	   oA.innerHTML="删除";
+	   oLi.appendChild(oA);
+	   
+	   oA.onclick=function(){
+		   oList.removeChild(this.parentNode);
+		   num--;
+	   }
+
+	   if(oList.children[0])
+	   {
+		   if(num>5)
+		   {
+			  oList.removeChild(oList.lastChild); 
+			  //oList.removeChild(oList.children[4]); 
+			  oList.insertBefore(oLi,oList.children[0]);
+			  num--;
+		   }else
+		   {
+		     oList.insertBefore(oLi,oList.children[0]);
+		   }
+	   }else
+	   {
+		   oList.appendChild(oLi);
+	   }
+   }
+   
+}
+</script>
+</head>
+<body>
+<input type="text"  id="mes" value="">
+<input type="button"  value="留言" id="btn">
+<ul id="list"></ul>
+</body>
+</html>

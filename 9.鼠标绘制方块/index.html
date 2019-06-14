@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>鼠标绘制方块</title>
+<style>
+#canvas{ width:800px; margin:20px auto; height:700px; border:2px solid #000; position:relative; background:#CCC}
+#Reset{width:100px; height:30px;margin:0 auto; text-align:center; line-height:30px; font-size:18px; font-family:"微软雅黑";background:#CCC; border:#000 solid 1px; cursor:default}
+p{ margin:0 auto; text-align:center}
+</style>
+<script>
+window.onload=function(){
+	var oCanvas=document.getElementById("canvas");
+	var oReset=document.getElementById("Reset");
+	oCanvas.onmousedown=function(ev){
+		var ev=ev||event;
+		var T1=ev.clientY-oCanvas.offsetTop;
+		var L1=ev.clientX-oCanvas.offsetLeft;
+		if(oCanvas.setCapture){
+		   oCanvas.setCapture();
+		}
+		var drawDiv=document.createElement("div");
+		oCanvas.appendChild(drawDiv);
+		document.onmousemove=function(ev){
+			var ev=ev||event;
+			var T2=ev.clientY-oCanvas.offsetTop;
+		    var L2=ev.clientX-oCanvas.offsetLeft;
+			var T=T2>T1?T1:T2;
+			var L=L2>L1?L1:L2;
+			
+			T2=T<0?T=0:T2;
+			T2=T2>oCanvas.clientHeight?oCanvas.clientHeight:T2;
+			L2=L<0?L=0:L2;
+			L2=L2>oCanvas.clientWidth?oCanvas.clientWidth:L2;
+			drawDiv.style.cssText="border:1px solid #F00;position:absolute;";
+			drawDiv.style.top=T+"px";
+			drawDiv.style.left=L+"px";
+			drawDiv.style.width=Math.abs(L2-L1-2)+"px";
+			drawDiv.style.height=Math.abs(T2-T1-2)+"px";
+		}
+		document.onmouseup=function(ev){
+		  var ev=ev||event;
+		  if(drawDiv.style.cssText=="")
+		  {
+			oCanvas.removeChild(drawDiv);  
+		  }
+		  document.onmousedown=document.onmousemove=null;
+		  if(oCanvas.releaseCapture){
+		     oCanvas.releaseCapture();
+		  }
+	   }
+	   return false;
+	}
+
+     oReset.onclick=function(){
+		 oCanvas.innerHTML="";
+	 }
+}
+</script>
+</head>
+<body>
+<div id="Reset">重画</div>
+<div id="canvas"></div>
+<p>你可以在画布上画任意大小矩形</p>
+</body>
+</html>

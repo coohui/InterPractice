@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>选择筛选</title>
+<style>
+p{ cursor:pointer; padding:0; margin:0;}
+#show p{ float:left; display:inline-table;}
+</style>
+<script>
+window.onload=function(){
+	var aPlaceP=document.getElementById("place").getElementsByTagName("p");
+	var aOfficeP=document.getElementById("office").getElementsByTagName("p");
+	var aWageP=document.getElementById("wage").getElementsByTagName("p");
+	var oShow=document.getElementById("show");
+	var aDiv=document.getElementById("fiter").getElementsByTagName("div");
+	for(var i=0;i<3;i++)
+	{
+		var op=document.createElement("p");
+		oShow.appendChild(op);
+		
+	}
+
+	for(var i=0;i<aDiv.length;i++)
+	{
+		filter(aDiv[i],i)
+	}
+	
+	
+	function filter(obj,index){
+		var aP=obj.getElementsByTagName("p");
+		var aShowP=oShow.getElementsByTagName("p");
+		var str="";
+		
+		for(var i=0;i<aP.length;i++)
+		{
+			aP[i].onclick=function()
+			{
+				aShowP[index].innerHTML=this.innerHTML;
+				aShowP[index].style.marginRight=20+"px";
+			}
+		}
+		
+	}
+		
+}
+</script>
+</head>
+<body>
+<div id="fiter">
+      <div id="place">
+           <p>东城</p>
+           <p>西城</p>
+           <p>朝阳</p>
+           <p>昌平</p>
+      </div><br/>
+      <div id="office">
+           <p>美工设计</p>
+           <p>前端开发</p>
+           <p>后台开发</p>
+      </div><br/>
+      <div id="wage">
+           <p>4000</p>
+           <p>5000</p>
+           <p>6000</p>
+      </div><br/>
+</div>
+<div id="show"></div>
+</body>
+</html>

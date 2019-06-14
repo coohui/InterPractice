@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>拖拽回放</title>
+<style>
+body{ padding:0; margin:0;}
+#div1{ width:60px; height:60px; text-align:center; line-height:24px; font-size:14px; background:#F00; position:absolute; cursor:default; top:40px; left:10px;}
+#btn{ margin:10px 0 0 10px}
+</style>
+<script>
+window.onload=function(){
+	var oDiv=document.getElementById("div1");
+	var oBtn=document.getElementById("btn");
+	var posT=[];
+	var posL=[];
+	oDiv.onmousedown=function(ev){
+	   var ev=ev||event;
+	   var disX=ev.clientX-oDiv.offsetLeft;
+	   var disY=ev.clientY-oDiv.offsetTop;
+		  if ( oDiv.setCapture ) {
+			  oDiv.setCapture();
+		  }
+	   document.onmousemove=function(ev){
+		   var ev=ev||event;
+		   var T=ev.clientY-disY;
+		   var L=ev.clientX-disX;
+		   var viewWidth = document.documentElement.clientWidth-oDiv.offsetWidth;
+	       var viewHeight = document.documentElement.clientHeight-oDiv.offsetHeight;
+           T<0?T=0:T;
+		   T>viewHeight?T=viewHeight:T;
+		   L>viewWidth?L=viewWidth:L;
+		   L<0?L=0:L;
+		   posT.unshift(T);
+		   posL.unshift(L);
+		   oDiv.style.top=T+"px";
+		   oDiv.style.left=L+"px";
+	   }
+	  document.onmouseup=function(){
+		  document.onmouseup=document.onmousemove=null;
+		  if (oDiv.releaseCapture) {
+			  oDiv.releaseCapture();
+		  }
+         document.documentElement.clientWidth;
+	  }
+	  return false;
+	}
+	
+	oBtn.onclick=function(){
+		var iNow=0;
+		var timer=setInterval(function(){
+		   oDiv.style.top=posT[iNow]+"px";
+		   oDiv.style.left=posL[iNow]+"px";
+		   if(iNow>=posT.length)
+		   {
+			   clearInterval(timer);
+			   posT=[];
+	           posL=[];
+		   }else
+		   {
+		      iNow++;
+		   }
+		},30);
+	}
+	
+}
+</script>
+</head>
+<body>
+<input type="button" value="回放" id="btn">
+<div id="div1">请拖<br/>拽我！</div >
+</body>
+</html>

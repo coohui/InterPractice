@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>模拟select</title>
+<style>
+body{ padding:30px 0 0 200px;font-size:14px;}
+ul,li{ padding:0; margin:0; list-style:none}
+a{ text-decoration:none; padding-left:4px; display:inline-block; color:#000; outline:none}
+#div1{height:28px; width:250px; border:solid 1px #F63; line-height:28px;padding-left:4px; overflow:hidden;}
+a,#div1{ line-height:28px;height:28px;width:250px;}
+#ul1{border:solid 1px #F63;width:254px;display:none;}
+a:hover{background:#F03; color:#fff;}
+.active{background:#F03; color:#fff;}
+</style>
+<script>
+window.onload=function(){
+   var oDiv1=document.getElementById("div1");
+   var oUl1=document.getElementById("ul1");	
+   var aA=oUl1.getElementsByTagName("a");
+   
+   oDiv1.onclick=function(){
+	   oUl1.style.display=="block"?oUl1.style.display="none":oUl1.style.display="block";
+   }
+/*多选 */
+   MultipleChoice();
+   function MultipleChoice(){
+	   for(var i=0;i<aA.length;i++)
+		  {
+			 aA[i].index=i;
+			 var str="";
+			 var arrCtrl=[];
+			 var arrShift=[];
+			 var btn=false;
+			 bind(aA[i], "click", Ctrl);
+			 bind(aA[i], "click", Shift);
+		   }
+		   
+		  function Reset()
+			{
+				for(var i=0;i<aA.length;i++)
+				 { 
+					 aA[i].className="";
+				 }
+			}
+			   
+		  function Ctrl(ev){
+				 var ev=ev||event;
+				 str="";
+				 if(ev.ctrlKey)
+				   {
+					   if(btn&&!ev.shiftKey)
+					   {
+						  Reset();
+					   }
+					   if(aA[this.index].className=="active")
+					   {
+						 aA[this.index].className="";
+						 for(var i=0;i<arrCtrl.length;i++)
+						   {
+							 if(arrCtrl[i]==this.index)
+								arrCtrl.splice(i,1);  
+						   }
+					   }else
+					   {
+						   aA[this.index].className="active";
+						   arrCtrl.push(this.index); 
+					   }
+	
+					   for(var j=0;j<arrCtrl.length;j++)
+						 {
+						   str+=aA[arrCtrl[j]].innerHTML+" ";
+						 }
+						 oDiv1.innerHTML=str;
+				   }else{arrCtrl=[]}
+			  }
+		 
+             function Shift(ev){
+				 var ev=ev||event;
+				  str="";
+				  btn=true;
+				  if(ev.shiftKey)
+					{
+						if(ev.ctrlKey)
+						{
+							alert("请不要同时按ctrl和shift键！");
+							Reset();
+							return false;
+						}
+						if(arrShift.length==0)
+						{
+							 arrShift.push(this.index);
+						}else
+						{
+							if(arrShift.length==1)
+							{
+							     arrShift[0]>this.index?arrShift.unshift(this.index):arrShift.push(this.index);
+							}else{
+								if(arrShift[0]<this.index&&this.index<arrShift[1])
+								{
+									arrShift.splice(1,1,this.index);
+								}
+								if(arrShift[1]<this.index)
+								{
+									arrShift.splice(1,1,this.index);
+								}
+								if(arrShift[0]>this.index)
+								{
+									arrShift.splice(0,1,this.index);
+								}
+						    }
+						}
+						
+						for(var i=0;i<aA.length;i++)
+						 {
+						   aA[i].className="";
+						 }
+	  
+						for(var j=arrShift[0];j<=arrShift[arrShift.length-1];j++)
+						 {
+							aA[j].className="active";
+							str+=aA[j].innerHTML+" ";
+						 } 
+						  oDiv1.innerHTML=str; 
+					}else{arrShift=[]; btn=false; }
+			 }
+       }
+	   
+	   function bind(obj, evname, fn) {
+		if (obj.addEventListener) {
+				obj.addEventListener(evname, fn, false);
+			} else {
+				obj.attachEvent('on' + evname, function() {
+					fn.call(obj);
+				});
+			}
+		}
+/*单选*/
+      Radio();
+	  function Radio(){
+		 for(var i=0;i<aA.length;i++)
+		   {
+			   aA[i].onclick=function(ev){
+				  var ev=ev||event;
+				  if(!ev.shiftKey&&!ev.ctrlKey)
+				   {
+					  for(var i=0;i<aA.length;i++)
+						 {
+						   aA[i].className="";
+						 }
+						 oDiv1.innerHTML=this.innerHTML;
+						 this.className="active";
+						 oUl1.style.display="none";
+				   }
+			   }
+		   }
+	  }
+
+}
+</script>
+</head>
+<body>
+<div id="div1"></div>
+<ul id="ul1">
+    <li><a href="javascript:;">宋体</a></li>
+    <li><a href="javascript:;">黑体</a></li>
+    <li><a href="javascript:;">楷体</a></li>
+    <li><a href="javascript:;">微软雅黑</a></li>
+    <li><a href="javascript:;">新宋体</a></li>
+    <li><a href="javascript:;">仿宋</a></li>
+</ul>
+</body>
+</html> 

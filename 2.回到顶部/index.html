@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+body{padding:0;margin:0;height:2000px; background:#333}
+div{ font-size:36px; text-align:center;}
+#getTop{width:30px;height:70px;background:#F00;position:fixed;bottom:100px;right:10px; font-size:14px; text-align:center; padding-top:10px; cursor:pointer}
+</style>
+<script>
+window.onload=function(){
+	var getTop=document.getElementById("getTop");
+	var viewHeight = document.documentElement.clientHeight;
+	var timer=null;
+	
+	getTop.onclick=function(){
+	   var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+	   timer=setInterval(function(){
+		   if(scrollTop>0)
+		   {
+			  scrollTop-=100;
+			  scrollTop<0?scrollTop=0:scrollTop;
+			  document.documentElement.scrollTop=scrollTop;
+			  document.body.scrollTop=scrollTop;
+		   }else{
+			   clearInterval(timer);
+			   }
+			  document.title=scrollTop;
+		},30)
+	}
+ 
+}
+</script>
+</head>
+<body>
+<div id="getTop">返<br/>回<br/>顶<br/>部</div>
+<div style="background:#0F3; height:400px; border:solid 2px">1</div>
+<div style="background:#ff0; height:400px; border:solid 2px">2</div>
+<div style="background:#FF0; height:400px; border:solid 2px">3</div>
+<div style="background:#F90; height:400px; border:solid 2px">4</div>
+<div style="background:#9F6; height:400px; border:solid 2px">5</div>
+</body>
+</html>

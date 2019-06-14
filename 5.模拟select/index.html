@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>模拟select</title>
+<style>
+body{ padding:30px 0 0 200px;font-size:14px;}
+ul,li{ padding:0; margin:0; list-style:none}
+a{ text-decoration:none; padding-left:4px; display:inline-block; color:#000; outline:none}
+#div1{height:28px; width:250px; border:solid 1px #F63; line-height:28px;padding-left:4px;}
+a,#div1{ line-height:28px;height:28px;width:250px;}
+#ul1{border:solid 1px #F63;width:254px;display:none;}
+a:hover{background:#F03; color:#fff;}
+.active{background:#F03; color:#fff;}
+</style>
+<script>
+window.onload=function(){
+   var oDiv1=document.getElementById("div1");
+   var oUl1=document.getElementById("ul1");	
+   var aA=oUl1.getElementsByTagName("a");
+   
+   oDiv1.onclick=function(){
+	   oUl1.style.display=="block"?oUl1.style.display="none":oUl1.style.display="block";
+   }
+   
+   for(var i=0;i<aA.length;i++)
+   {
+	   aA[i].onclick=function(){
+		   for(var i=0;i<aA.length;i++)
+		   {
+			 aA[i].className="";
+		   }
+		   oDiv1.innerHTML=this.innerHTML;
+		   this.className="active";
+		   oUl1.style.display="none";
+	   }
+   }
+}
+</script>
+</head>
+<body>
+<div id="div1"></div>
+<ul id="ul1">
+    <li><a href="javascript:;">宋体</a></li>
+    <li><a href="javascript:;">黑体</a></li>
+    <li><a href="javascript:;">楷体</a></li>
+    <li><a href="javascript:;">微软雅黑</a></li>
+    <li><a href="javascript:;">新宋体</a></li>
+    <li><a href="javascript:;">仿宋</a></li>
+</ul>
+</body>
+</html>
